@@ -16,7 +16,7 @@ create domain Prices as integer
 
 /*Table for dive sites*/
 create table DiveSites (
-    sID interger primary key,
+    sID integer primary key,
     name varchar(25),
     location varchar(25),
     dayCap interger,
@@ -25,7 +25,7 @@ create table DiveSites (
 
 /*Table for dive categories offered at each dive location*/
 create table AvailableCategories (
-    sID interger references DiveSites(sID),
+    sID integer references DiveSites(sID),
     type DiveCategories
 );
 
