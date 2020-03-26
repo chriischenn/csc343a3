@@ -108,9 +108,11 @@ create table Bookings (
     sID integer references DiveSites(sID) not null,
     bookingDate DATE not null,
     bookingTime TIME not null,
+    /*numDivers includes the leadDiver in its count, total divers for booking*/
+    numDivers integer not null,
     /*Add constraint to check if monitor has more than 2 bookings in 24 period*/
+
     /*unique added here to implement constraint that each diver can only
     one booking at a specific time and date*/
     unique(bID, leadDiver, bookingDate, bookingTime)
-
 );
