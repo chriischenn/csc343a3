@@ -19,8 +19,8 @@ create table DiveSites (
     sID integer primary key,
     name varchar(25),
     location varchar(25),
-    dayCap interger,
-    nightCap interger
+    dayCap integer,
+    nightCap integer
 );
 
 /*Table for dive categories offered at each dive location*/
