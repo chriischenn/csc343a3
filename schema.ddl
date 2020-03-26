@@ -85,7 +85,7 @@ create table DiveSitePricing (
 );
 
 /*Table for monitor pricing*/
-/*Pricing will be 0 for dive sessions not offered*/
+/*Pricing will be 0 for dive sessions not offered, set in domain Prices*/
 create table MonitorPricing (
     mID integer references Monitors(mID),
     dayOpenWater Prices not null,
@@ -101,3 +101,16 @@ create table MonitorPricing (
 
 /*Table for bookings*/
 /*will have a divesite and monitor associated with each booking*/
+create table Bookings (
+    bID integer primary key,
+    leadDiver integer references Divers(dID) not null,
+    mID integer references Monitors(mID) not null,
+    sID integer references DiveSites(sID) not null,
+    bookingDate DATE not null,
+    bookingTime TIME not null,
+    /*Add constraint to check if monitor has more than 2 bookings in 24 period*/
+    /*unique added here to implement constraint that each diver can only
+    one booking at a specific time and date*/
+    unique(bID, leadDiver, bookingDate, bookingTime)
+
+);
