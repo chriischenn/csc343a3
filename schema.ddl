@@ -81,7 +81,7 @@ create table DiveSitePricing (
     fins integer not null,
     diveComputers integer not null,
     primary key (sID),
-    unique(sID, pricePerDiver)
+    unique(sID, pricePerDiver, masks, regulators, fins, diveComputers)
 );
 
 /*Table for monitor pricing*/
