@@ -55,6 +55,7 @@ create table Divers (
     lName varchar(25) not null,
     birthday DATE not null,
     email varchar(55) not null,
+    /*Not null added to enforce that divers must have certification*/
     certification OpenWaterCertification not null
 );
 
@@ -107,14 +108,20 @@ create table MonitorPricing (
 create table Bookings (
     bID integer primary key not null,
     leadDiver integer references Divers(dID) not null,
+    email varchar(55) not null,
+    creditCard varchar(20) not null,
     mID integer references Monitors(mID) not null,
     sID integer references DiveSites(sID) not null,
     bookingDate DATE not null,
     bookingTime TIME not null,
     /*numDivers includes the leadDiver in its count, total divers for booking*/
     numDivers integer not null,
-    /*Add constraint to check if monitor has more than 2 bookings in 24 period*/
-
+    /*allCertified added as table entry to ensure all divers in booking has
+    their certification*/
+    allCertified boolean not null,
+    /*allSixteenPlus added as table entry to ensure all divers in booking
+    group are 16+ on the day of the dive*/
+    allSixteenPlus boolean not null,
     /*unique added here to implement constraint that each diver can only
     one booking at a specific time and date*/
     unique(bID, leadDiver, bookingDate, bookingTime)
