@@ -16,32 +16,35 @@ create domain Prices as integer
 
 /*Table for dive sites*/
 create table DiveSites (
-    sID integer primary key,
-    name varchar(25),
-    location varchar(25),
-    dayCap integer,
-    nightCap integer
+    sID integer not null,
+    name varchar(25) not null,
+    location varchar(25) not null,
+    dayCap integer not null,
+    nightCap integer not null,
+    primary key (sID)
 );
 
 /*Table for dive categories offered at each dive location*/
 create table AvailableCategories (
-    sID integer references DiveSites(sID),
-    type DiveCategories
+    sID integer references DiveSites(sID) not null,
+    type DiveCategories not null,
+    unique(sID, type)
 );
 
 /*Table for monitors*/
 create table Monitors (
-    mID integer primary key,
+    mID integer not null,
     name varchar(25) not null,
     openWaterLimit integer not null,
     caveDiveLimit integer not null,
-    deepDiveLimit integer not null
+    deepDiveLimit integer not null,
+    primary key (mID)
 );
 
 /*Table for monitor affiliation*/
 create table Affiliated (
-    mID integer references Monitors(mID),
-    sID integer references DiveSites(sID),
+    mID integer references Monitors(mID) not null,
+    sID integer references DiveSites(sID) not null,
     unique(mID, sID)
 );
 
@@ -57,24 +60,24 @@ create table Divers (
 
 /*Table for monitor ratings*/
 create table MonitorRatings (
-    mID integer references Monitors(mID),
+    mID integer references Monitors(mID) not null,
     rating integer not null,
-    rater integer references Divers(dID),
+    rater integer references Divers(dID) not null,
     unique(mID, rating, rater)
 );
 
 /*Table for divesite ratings*/
 create table DiveSiteRatings (
-    sID integer references DiveSites(sID),
+    sID integer references DiveSites(sID) not null,
     rating integer not null,
-    rater integer references Divers(dID),
+    rater integer references Divers(dID) not null,
     unique(sID, rating, rater)
 );
 
 /*Table for divesite pricing*/
 /*Pricing will be $0 for extras that the divesite does not offer*/
 create table DiveSitePricing (
-    sID integer references DiveSites(sID),
+    sID integer references DiveSites(sID) not null,
     pricePerDiver Prices not null,
     masks Prices not null,
     regulators Prices not null,
@@ -87,7 +90,7 @@ create table DiveSitePricing (
 /*Table for monitor pricing*/
 /*Pricing will be 0 for dive sessions not offered, set in domain Prices*/
 create table MonitorPricing (
-    mID integer references Monitors(mID),
+    mID integer references Monitors(mID) not null,
     dayOpenWater Prices not null,
     nightOpenWater Prices not null,
     dayCave Prices not null,
@@ -102,7 +105,7 @@ create table MonitorPricing (
 /*Table for bookings*/
 /*will have a divesite and monitor associated with each booking*/
 create table Bookings (
-    bID integer primary key,
+    bID integer primary key not null,
     leadDiver integer references Divers(dID) not null,
     mID integer references Monitors(mID) not null,
     sID integer references DiveSites(sID) not null,
