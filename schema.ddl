@@ -76,10 +76,10 @@ create table DiveSiteRatings (
 create table DiveSitePricing (
     sID integer references DiveSites(sID),
     pricePerDiver Prices not null,
-    masks integer not null,
-    regulators integer not null,
-    fins integer not null,
-    diveComputers integer not null,
+    masks Prices not null,
+    regulators Prices not null,
+    fins Prices not null,
+    diveComputers Prices not null,
     primary key (sID),
     unique(sID, pricePerDiver, masks, regulators, fins, diveComputers)
 );
